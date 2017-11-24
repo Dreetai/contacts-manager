@@ -85,4 +85,8 @@ public class ContactsManager {
         }
     }
 
+    public Contact getContact(){
+        return contacts.get(0);
+    }
+
 }

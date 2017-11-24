@@ -1,17 +1,20 @@
 package com.fredericboisguerin.insa;
 
+import org.mockito.Mockito;
+
 import java.io.IOException;
 import java.util.HashMap;
+import static org.mockito.Mockito.*;
 
 public class Main {
 
-    private static final String NOT_YET_IMPLEMETED = "Not yet implemented.";
     private static final String EXIT_MESSAGE = "Bye Bye !";
     private static final String SAVE_MESSAGE = "Saving contacts...";
     private static final String SAVE_ERROR_MESSAGE = "An error occured while persisting contacts";
 
     private static final GeekUI view = new GeekUI();
     private static ContactsManager contactList = new ContactsManager();
+    private static ContactsManager contactList2 = mock(ContactsManager.class);
 
 
     public static void main(String argv[]) throws IOException {
@@ -23,6 +26,7 @@ public class Main {
             switch (userChoice) {
                 case GeekUI.MENU_DISPLAY_CONTACTS_VALUE:
                     contactList.printAllContacts();
+                    Mockito.verify(contactList2).printAllContacts();
                     break;
                 case GeekUI.MENU_ADD_CONTACTS_VALUE:
                     addContacts();
@@ -51,6 +55,9 @@ public class Main {
                     contactData.get("email"),
                     contactData.get("phoneNumber")
             );
+            Mockito.verify(contactList2).addContact(contactData.get("name"),
+                    contactData.get("email"),
+                    contactData.get("phoneNumber"));
         } catch (InvalidContactNameException e) {
             e.printStackTrace();
         } catch (InvalidEmailException e) {
